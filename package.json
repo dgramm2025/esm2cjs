@@ -1,0 +1,26 @@
+{
+  "name": "@dgramm2025/esm2cjs",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "esm2cjs": "index.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dgramm2025/esm2cjs.git"
+  },
+  "license": "MIT",
+  "author": "Digitech",
+  "type": "module",
+  "main": "index.mjs",
+  "version": "0.0.1-alpha.1",
+  "scripts": {
+    "prepub": "npx np --no-cleanup --yolo --no-publish",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "dependencies": {
+    "glob": "^11.0.3",
+    "rolldown": "^1.0.0-beta.43"
+  }
+}
