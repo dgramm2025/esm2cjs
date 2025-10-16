@@ -3,8 +3,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "main": "index.cjs",
   "bin": {
-    "esm2cjs": "index.mjs"
+    "moodle-pack": "./index.js"
   },
   "repository": {
     "type": "git",
@@ -12,15 +13,15 @@
   },
   "license": "MIT",
   "author": "Digitech",
-  "type": "module",
-  "main": "index.mjs",
-  "version": "0.0.2-0",
+  "type": "commonjs",
+  "version": "0.0.4",
   "scripts": {
-    "prepub": "npx np --no-cleanup --yolo --no-publish",
+    "prepub": "npx np --no-cleanup --yolo --no-publish && npm publish",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
-    "glob": "^11.0.3",
-    "rolldown": "^1.0.0-beta.43"
+    "@rollup/plugin-terser": "^0.4.0",
+    "glob": "^8.1.0",
+    "rollup": "^3.0.0"
   }
 }
