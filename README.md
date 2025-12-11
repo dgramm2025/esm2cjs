@@ -21,13 +21,20 @@ ESM2CJS is a complete refactor and modernization of the original Moodle AMD bund
 ## Installation
 
 ```bash
-npm install -g @dgramm2025/esm2cjs
+# Option 1: Direct from GitHub (no npm account needed)
+git clone https://github.com/dgramm2025/esm2cjs.git
+cd esm2cjs
+npm install
+npm install -g .
+
+# Option 2: When published to npm
+npm install -g esm2cjs-moodle
 ```
 
-Or use directly with npx:
+Or use with npx (when published):
 
 ```bash
-npx @dgramm2025/esm2cjs
+npx esm2cjs-moodle
 ```
 
 ## Usage
@@ -37,7 +44,7 @@ npx @dgramm2025/esm2cjs
 Run from within any Moodle installation:
 
 ```bash
-esm2cjs
+esm2cjs-moodle
 ```
 
 The tool will automatically:
@@ -49,7 +56,7 @@ The tool will automatically:
 ### CLI Options
 
 ```bash
-esm2cjs [options]
+esm2cjs-moodle [options]
 
 Options:
   -v, --verbose         Enable verbose logging
@@ -64,16 +71,16 @@ Options:
 
 ```bash
 # Build with detailed logging
-esm2cjs --verbose
+esm2cjs-moodle --verbose
 
 # Build with custom concurrency
-esm2cjs --concurrency 8
+esm2cjs-moodle --concurrency 8
 
 # Build without minification (for debugging)
-esm2cjs --no-minify --verbose
+esm2cjs-moodle --no-minify --verbose
 
 # Show help
-esm2cjs --help
+esm2cjs-moodle --help
 ```
 
 ## Architecture
@@ -132,8 +139,8 @@ Component mapping uses Moodle's standard `lib/components.json` file and follows 
 If you're migrating from the old Babel plugin approach:
 
 1. **Remove**: `babel-plugin-add-module-to-define.js`
-2. **Install**: This package (`@dgramm2025/esm2cjs`)
-3. **Update**: Build scripts to use `esm2cjs` command
+2. **Install**: This package (`esm2cjs-moodle`)
+3. **Update**: Build scripts to use `esm2cjs-moodle` command
 4. **Verify**: Component resolution matches your expectations
 
 The new tool is designed to be a drop-in replacement with enhanced capabilities.

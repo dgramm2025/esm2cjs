@@ -214,7 +214,11 @@ class FileProcessor {
         ];
         
         if (minify) {
-            plugins.push(this.createTerserPlugin());
+            const minifyOptions = {
+                enableMangle: options.enableMangle !== false,
+                preserveAmdStructure: options.preserveAmdStructure !== false
+            };
+            plugins.push(this.createTerserPlugin(minifyOptions));
         }
         
         try {
@@ -251,36 +255,71 @@ class FileProcessor {
     /**
      * Creates Terser plugin for minification
      * 
+     * @param {Object} options - Minification options
      * @returns {Object} Terser plugin configuration
      */
-    createTerserPlugin() {
+    createTerserPlugin(options = {}) {
+        const {
+            enableMangle = true,
+            preserveAmdStructure = true
+        } = options;
+        
         return terser({
-            mangle: false, // Don't mangle names to keep AMD readable
+            // Enable name mangling for smaller files, but preserve AMD function parameters
+            mangle: enableMangle ? {
+                // Keep AMD define function parameters readable
+                reserved: ['define', 'require', 'module', 'exports'],
+                // Don't mangle top-level function parameters (AMD callback params)
+                toplevel: false
+            } : false,
+            
             compress: {
-                sequences: false,
+                // Enable sequence optimization for better minification
+                sequences: true,
                 properties: true,
                 dead_code: true,
+                drop_console: false, // Keep console statements for debugging
                 drop_debugger: true,
                 unsafe: false,
                 unsafe_comps: false,
+                unsafe_math: false,
+                unsafe_symbols: false,
+                unsafe_methods: false,
+                unsafe_proto: false,
+                unsafe_regexp: false,
                 conditionals: true,
                 comparisons: true,
                 evaluate: true,
                 booleans: true,
+                typeofs: true,
                 loops: true,
                 unused: true,
+                toplevel: false, // Don't optimize top-level scope (preserve AMD structure)
+                top_retain: preserveAmdStructure ? ['define'] : null,
                 hoist_funs: false,
-                keep_fargs: true,
+                hoist_props: true,
                 hoist_vars: false,
                 if_return: true,
+                inline: true,
                 join_vars: true,
+                reduce_vars: true,
+                reduce_funcs: true,
+                collapse_vars: true,
                 side_effects: true,
+                pure_getters: false,
+                keep_fargs: false, // Remove unused function arguments
+                keep_fnames: false, // Remove function names when possible
+                passes: 2, // Run compression twice for better results
                 warnings: false,
                 global_defs: {}
             },
-            output: {
-                comments: false,
-                beautify: false
+            
+            format: {
+                comments: false, // Remove all comments
+                beautify: false, // Minify output
+                semicolons: true, // Always use semicolons
+                wrap_iife: false, // Don't wrap in extra parentheses
+                preserve_annotations: false // Remove JSDoc annotations
             }
         });
     }

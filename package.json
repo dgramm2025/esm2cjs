@@ -1,11 +1,11 @@
 {
-  "name": "@dgramm2025/esm2cjs",
+  "name": "esm2cjs-moodle",
   "publishConfig": {
     "access": "public"
   },
   "main": "index.cjs",
   "bin": {
-    "esm2cjs": "./index.cjs"
+    "esm2cjs-moodle": "index.cjs"
   },
   "repository": {
     "type": "git",

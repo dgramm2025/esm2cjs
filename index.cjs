@@ -29,7 +29,9 @@ function parseCliArgs() {
         version: false,
         concurrency: CONFIG.CONCURRENCY_LIMIT,
         minify: true,
-        sourcemap: true
+        sourcemap: true,
+        enableMangle: true,
+        aggressiveMinify: false
     };
     
     for (let i = 0; i < args.length; i++) {
@@ -68,6 +70,14 @@ function parseCliArgs() {
                 options.sourcemap = false;
                 break;
                 
+            case '--aggressive-minify':
+                options.aggressiveMinify = true;
+                break;
+                
+            case '--no-mangle':
+                options.enableMangle = false;
+                break;
+                
             default:
                 if (arg.startsWith('-')) {
                     throw new Error(`Unknown option: ${arg}`);
@@ -93,14 +103,17 @@ Options:
   -h, --help            Show this help message
   --version             Show version information
   -c, --concurrency N   Set build concurrency (default: ${CONFIG.CONCURRENCY_LIMIT})
-  --no-minify           Skip minification
+  --no-minify           Skip minification entirely
+  --no-mangle           Disable variable name mangling (keep readable names)
+  --aggressive-minify   Enable maximum minification (smaller files)
   --no-sourcemap        Skip source map generation
 
 Examples:
-  npx esm2cjs                    # Build all AMD modules
+  npx esm2cjs                    # Build all AMD modules (default minification)
   npx esm2cjs --verbose          # Build with detailed logging
   npx esm2cjs -c 4               # Build with 4 concurrent processes
-  npx esm2cjs --no-minify        # Build without minification
+  npx esm2cjs --aggressive-minify # Maximum minification for smallest files
+  npx esm2cjs --no-mangle        # Minify but keep variable names readable
 
 This tool automatically detects your Moodle installation root and processes
 all AMD source files found in */amd/src/ directories.
@@ -179,6 +192,8 @@ async function main() {
             concurrency: options.concurrency,
             minify: options.minify,
             sourcemap: options.sourcemap,
+            enableMangle: options.enableMangle,
+            preserveAmdStructure: !options.aggressiveMinify,
             showProgress: !options.verbose, // Show progress bar only if not verbose
             transformOptions: {
                 indentSize: 4,
