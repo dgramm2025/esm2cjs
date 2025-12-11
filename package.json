@@ -14,13 +14,22 @@
   "license": "MIT",
   "author": "Digitech",
   "type": "commonjs",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "scripts": {
     "prepub": "npx np --no-cleanup --yolo --no-publish && npm publish",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "start": "node index.cjs",
+    "build": "node index.cjs",
+    "dev": "node index.cjs --verbose"
   },
   "dependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
     "@rollup/plugin-terser": "^0.4.0",
+    "@xmldom/xmldom": "^0.8.11",
+    "babel-plugin-system-import-transformer": "^4.0.0",
+    "babel-plugin-transform-es2015-modules-amd-lazy": "^2.0.1",
+    "babel-preset-minify": "^0.5.2",
     "glob": "^8.1.0",
     "rollup": "^3.0.0"
   }
